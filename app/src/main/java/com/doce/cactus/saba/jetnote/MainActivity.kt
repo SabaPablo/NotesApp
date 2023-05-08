@@ -7,15 +7,10 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.doce.cactus.saba.jetnote.data.NotesDataSource
-import com.doce.cactus.saba.jetnote.model.Note
 import com.doce.cactus.saba.jetnote.screen.NoteScreen
 import com.doce.cactus.saba.jetnote.screen.NoteViewModel
 import com.doce.cactus.saba.jetnote.ui.theme.JetNoteTheme
@@ -32,7 +27,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val noteViewModel: NoteViewModel by viewModels()
+                    //val noteViewModel: NoteViewModel by viewModels()
+                    val noteViewModel = viewModel<NoteViewModel>()
                     NotesApp(noteViewModel = noteViewModel)
                 }
             }
@@ -41,8 +37,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun NotesApp(noteViewModel: NoteViewModel= viewModel()){
-    NoteScreen(noteViewModel.getAllNotes(),{
+fun NotesApp(noteViewModel: NoteViewModel){
+    val notesList = noteViewModel.noteList.collectAsState().value
+    NoteScreen(notes = notesList,{
             note ->
         noteViewModel.addNote(note)
     },{ note ->
