@@ -27,7 +27,9 @@ import com.doce.cactus.saba.jetnote.components.NoteButton
 import com.doce.cactus.saba.jetnote.components.NoteInputText
 import com.doce.cactus.saba.jetnote.data.NotesDataSource
 import com.doce.cactus.saba.jetnote.model.Note
+import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 @Composable
 fun NoteScreen(
@@ -127,9 +129,10 @@ fun NoteRow(
         ) {
             Text(text = note.title, style = MaterialTheme.typography.subtitle2)
             Text(text = note.description, style = MaterialTheme.typography.subtitle1)
-                //Text(
-               // text = note.entryDate.format(DateTimeFormatter.ofPattern("EEE, d MMM")),
-               // style = MaterialTheme.typography.caption)
+            Text(
+                //text = note.entryDate.(DateTimeFormatter.ofPattern("EEE, d MMM")),
+                text = SimpleDateFormat("EEE, d MMM", Locale.getDefault()).format(note.entryDate),
+                style = MaterialTheme.typography.caption)
 
         }
     }
